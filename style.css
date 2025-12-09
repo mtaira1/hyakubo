@@ -1,0 +1,165 @@
+/* 全体リセット */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #fff;
+}
+
+/* ヘッダー・タイトル */
+header {
+  padding: 16px 32px;
+}
+
+nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+nav a:hover {
+  opacity: 0.7;
+}
+
+.intro {
+  text-align: center;
+  margin: 24px 20px 4px;
+}
+
+.intro h1 {
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.intro p {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* 写真ステージ */
+.photo-stage {
+  position: relative;
+  height: calc(100vh - 110px);
+  overflow: hidden;
+}
+
+/* 共通：写真はちょっと大きめ、全部重ねる */
+.photo {
+  position: absolute;
+  width: 18vw;           /* ベースサイズ（前より大きめ） */
+  min-width: 150px;
+  max-width: 320px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+  opacity: 1;           /* ずっと表示 */
+
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* ─ サイズをバラバラにする ─ */
+.photo:nth-child(3n) {
+  width: 15vw;
+}
+.photo:nth-child(4n) {
+  width: 22vw;
+}
+.photo:nth-child(5n) {
+  width: 20vw;
+}
+.photo:nth-child(7n) {
+  width: 17vw;
+}
+
+/* ─ 1〜20枚：スタート位置・方向・速度・開始タイミングをバラす ─ */
+/* duration を長め＋ animation-delay をマイナスにして
+   ページを開いた瞬間からバラバラに流れているように見せる */
+
+.photo:nth-child(1)  { top: 10%;  left: -30%; animation: run-lr        22s -5s  infinite; }
+.photo:nth-child(2)  { top: 25%;  left: 115%; animation: run-rl        24s -8s  infinite; }
+.photo:nth-child(3)  { top: -25%; left: 15%;  animation: run-down      26s -10s infinite; }
+.photo:nth-child(4)  { top: 110%; left: 35%;  animation: run-up        28s -13s infinite; }
+
+.photo:nth-child(5)  { top: 80%;  left: -35%; animation: run-diag-rup  24s -4s  infinite; }
+.photo:nth-child(6)  { top: -30%; left: 78%;  animation: run-diag-ldown 26s -9s infinite; }
+.photo:nth-child(7)  { top: 35%;  left: -32%; animation: run-lr        20s -7s  infinite; }
+.photo:nth-child(8)  { top: 60%;  left: 118%; animation: run-rl        23s -11s infinite; }
+
+.photo:nth-child(9)  { top: -28%; left: 55%;  animation: run-down      25s -6s  infinite; }
+.photo:nth-child(10) { top: 112%; left: 60%;  animation: run-up        27s -12s infinite; }
+
+.photo:nth-child(11) { top: 85%;  left: -28%; animation: run-diag-rup  26s -3s  infinite; }
+.photo:nth-child(12) { top: -22%; left: 5%;   animation: run-diag-rdown 28s -15s infinite; }
+
+.photo:nth-child(13) { top: 12%;  left: 118%; animation: run-rl        21s -9s  infinite; }
+.photo:nth-child(14) { top: 65%;  left: -34%; animation: run-lr        23s -14s infinite; }
+
+.photo:nth-child(15) { top: -26%; left: 38%;  animation: run-down      25s -2s  infinite; }
+.photo:nth-child(16) { top: 108%; left: 18%;  animation: run-up        27s -16s infinite; }
+
+.photo:nth-child(17) { top: 90%;  left: 118%; animation: run-diag-lup  29s -6s  infinite; }
+.photo:nth-child(18) { top: -24%; left: 70%;  animation: run-diag-ldown 24s -10s infinite; }
+
+.photo:nth-child(19) { top: 42%;  left: -30%; animation: run-diag-rup  22s -12s infinite; }
+.photo:nth-child(20) { top: 8%;   left: 120%; animation: run-diag-ldown 20s -5s  infinite; }
+
+
+/* ─ 直線的な動き：ずっと走りっぱなし（フェードなし） ─ */
+
+/* 左 → 右 */
+@keyframes run-lr {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(200vw); }
+}
+
+/* 右 → 左 */
+@keyframes run-rl {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-200vw); }
+}
+
+/* 上 → 下 */
+@keyframes run-down {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(190vh); }
+}
+
+/* 下 → 上 */
+@keyframes run-up {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-190vh); }
+}
+
+/* 左下 → 右上（斜め） */
+@keyframes run-diag-rup {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(200vw, -190vh); }
+}
+
+/* 右上 → 左下（斜め） */
+@keyframes run-diag-ldown {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-200vw, 190vh); }
+}
+
+/* 左上 → 右下（斜め） */
+@keyframes run-diag-rdown {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(190vw, 180vh); }
+}
+
+/* 右下 → 左上（斜め） */
+@keyframes run-diag-lup {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-190vw, -180vh); }
+}
