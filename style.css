@@ -12,6 +12,8 @@ body {
 
 /* ヘッダー・タイトル */
 header {
+  display: flex;
+  justify-content: flex-end; /* ← 右寄せ */
   padding: 16px 32px;
 }
 
