@@ -5,39 +5,129 @@
 
 body {
   margin: 0;
-  background: #000000;
+  background: transparent;
   font-family: Helvetica, Arial, sans-serif;
-  color: #ffffff;
+  position: relative;
+}
+
+/* 全ページ共通：ドット背景（タイトルの後ろも含めて表示） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: url("images/ドットの本物.png");
+  background-repeat: repeat;
+  background-size: 800px auto;
+  background-position: 0 0;
+
+
+}
+
+@keyframes bgMove {
+  from { background-position: 0 0; }
+  to   { background-position: 300px 200px; }
+}
+
+/* 背景の上にコンテンツを出す */
+header,
+.intro,
+.photo-stage {
+  position: relative;
+  z-index: 2;
+}
+
+.photo-stage {
+  position: relative;
+  height: calc(100vh - 110px);
+  overflow: hidden;
 }
 
 /* ヘッダー・タイトル */
 header {
-  padding: 16px 32px;
-  display: flex;             /* 横並び */
-  justify-content: flex-end; /* 右上に寄せる */
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+header nav {
+  display: inline-flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
 }
 
 nav a {
-  margin-right: 20px;
+  margin-right: 0;
   text-decoration: none;
-  color: #ff0000;
-  font-size: 14px;
-  letter-spacing: 0.08em;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease;
 }
 
 nav a:hover {
-  opacity: 0.7;
+  opacity: 1;
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+
+nav a:active {
+  transform: translateY(0);
+}
+
+nav a:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.75);
+  outline-offset: 2px;
 }
 
 .intro {
   text-align: center;
-  margin: 24px 20px 4px;
+  margin: 30px 20px 10px;
 }
 
+/* HYAKU KUBO：文字に縁（アウトライン） */
 .intro h1 {
-  font-size: 24px;
-  letter-spacing: 0.2em;
+  margin: 0;
+  font-size: clamp(28px, 4.8vw, 56px);
+  font-weight: 900;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
+
+  color: #000000;                 /* 塗りを消して縁だけ */
+  -webkit-text-stroke: 0.9px #ffffff;   /* Chrome/Safari */
+
+  text-shadow:
+    0 0 18px rgba(0,0,0,0.75),
+    0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* text-strokeがない環境の簡易フォールバック */
+@supports not (-webkit-text-stroke: 2px #fff) {
+  .intro h1 {
+    color: #ffffff;
+    text-shadow:
+      -2px -2px 0 rgba(0,0,0,0.9),
+       2px -2px 0 rgba(0,0,0,0.9),
+      -2px  2px 0 rgba(0,0,0,0.9),
+       2px  2px 0 rgba(0,0,0,0.9),
+       0 0 18px rgba(0,0,0,0.7);
+  }
 }
 
 .intro p {
@@ -45,13 +135,6 @@ nav a:hover {
   letter-spacing: 0.25em;
   text-transform: uppercase;
   opacity: 0.7;
-}
-
-/* 写真ステージ */
-.photo-stage {
-  position: relative;
-  height: calc(100vh - 110px);
-  overflow: hidden;
 }
 
 /* 共通：写真はちょっと大きめ、全部重ねる */
@@ -67,54 +150,46 @@ nav a:hover {
 
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  z-index: 2;
 }
 
 /* ─ サイズをバラバラにする ─ */
-.photo:nth-child(3n) {
-  width: 15vw;
-}
-.photo:nth-child(4n) {
-  width: 22vw;
-}
-.photo:nth-child(5n) {
-  width: 20vw;
-}
-.photo:nth-child(7n) {
-  width: 17vw;
-}
+.photo:nth-child(3n) { width: 15vw; }
+.photo:nth-child(4n) { width: 22vw; }
+.photo:nth-child(5n) { width: 20vw; }
+.photo:nth-child(7n) { width: 17vw; }
 
 /* ─ 1〜20枚：スタート位置・方向・速度・開始タイミングをバラす ─ */
 /* duration を長め＋ animation-delay をマイナスにして
    ページを開いた瞬間からバラバラに流れているように見せる */
 
-.photo:nth-child(1)  { top: 10%;  left: -30%; animation: run-lr        22s -5s  infinite; }
-.photo:nth-child(2)  { top: 25%;  left: 115%; animation: run-rl        24s -8s  infinite; }
-.photo:nth-child(3)  { top: -25%; left: 15%;  animation: run-down      26s -10s infinite; }
-.photo:nth-child(4)  { top: 110%; left: 35%;  animation: run-up        28s -13s infinite; }
+.photo:nth-child(1)  { top: 10%;  left: -30%; animation: run-lr         22s -5s  infinite; }
+.photo:nth-child(2)  { top: 25%;  left: 115%; animation: run-rl         24s -8s  infinite; }
+.photo:nth-child(3)  { top: -25%; left: 15%;  animation: run-down       26s -10s infinite; }
+.photo:nth-child(4)  { top: 110%; left: 35%;  animation: run-up         28s -13s infinite; }
 
-.photo:nth-child(5)  { top: 80%;  left: -35%; animation: run-diag-rup  24s -4s  infinite; }
-.photo:nth-child(6)  { top: -30%; left: 78%;  animation: run-diag-ldown 26s -9s infinite; }
-.photo:nth-child(7)  { top: 35%;  left: -32%; animation: run-lr        20s -7s  infinite; }
-.photo:nth-child(8)  { top: 60%;  left: 118%; animation: run-rl        23s -11s infinite; }
+.photo:nth-child(5)  { top: 80%;  left: -35%; animation: run-diag-rup   24s -4s  infinite; }
+.photo:nth-child(6)  { top: -30%; left: 78%;  animation: run-diag-ldown 26s -9s  infinite; }
+.photo:nth-child(7)  { top: 35%;  left: -32%; animation: run-lr         20s -7s  infinite; }
+.photo:nth-child(8)  { top: 60%;  left: 118%; animation: run-rl         23s -11s infinite; }
 
-.photo:nth-child(9)  { top: -28%; left: 55%;  animation: run-down      25s -6s  infinite; }
-.photo:nth-child(10) { top: 112%; left: 60%;  animation: run-up        27s -12s infinite; }
+.photo:nth-child(9)  { top: -28%; left: 55%;  animation: run-down       25s -6s  infinite; }
+.photo:nth-child(10) { top: 112%; left: 60%;  animation: run-up         27s -12s infinite; }
 
-.photo:nth-child(11) { top: 85%;  left: -28%; animation: run-diag-rup  26s -3s  infinite; }
+.photo:nth-child(11) { top: 85%;  left: -28%; animation: run-diag-rup   26s -3s  infinite; }
 .photo:nth-child(12) { top: -22%; left: 5%;   animation: run-diag-rdown 28s -15s infinite; }
 
-.photo:nth-child(13) { top: 12%;  left: 118%; animation: run-rl        21s -9s  infinite; }
-.photo:nth-child(14) { top: 65%;  left: -34%; animation: run-lr        23s -14s infinite; }
+.photo:nth-child(13) { top: 12%;  left: 118%; animation: run-rl         21s -9s  infinite; }
+.photo:nth-child(14) { top: 65%;  left: -34%; animation: run-lr         23s -14s infinite; }
 
-.photo:nth-child(15) { top: -26%; left: 38%;  animation: run-down      25s -2s  infinite; }
-.photo:nth-child(16) { top: 108%; left: 18%;  animation: run-up        27s -16s infinite; }
+.photo:nth-child(15) { top: -26%; left: 38%;  animation: run-down       25s -2s  infinite; }
+.photo:nth-child(16) { top: 108%; left: 18%;  animation: run-up         27s -16s infinite; }
 
-.photo:nth-child(17) { top: 90%;  left: 118%; animation: run-diag-lup  29s -6s  infinite; }
+.photo:nth-child(17) { top: 90%;  left: 118%; animation: run-diag-lup   29s -6s  infinite; }
 .photo:nth-child(18) { top: -24%; left: 70%;  animation: run-diag-ldown 24s -10s infinite; }
 
-.photo:nth-child(19) { top: 42%;  left: -30%; animation: run-diag-rup  22s -12s infinite; }
+.photo:nth-child(19) { top: 42%;  left: -30%; animation: run-diag-rup   22s -12s infinite; }
 .photo:nth-child(20) { top: 8%;   left: 120%; animation: run-diag-ldown 20s -5s  infinite; }
-
 
 /* ─ 直線的な動き：ずっと走りっぱなし（フェードなし） ─ */
 
