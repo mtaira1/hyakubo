@@ -39,11 +39,7 @@ header,
   z-index: 2;
 }
 
-.photo-stage {
-  position: relative;
-  height: calc(100vh - 110px);
-  overflow: hidden;
-}
+
 
 /* ヘッダー・タイトル */
 header {
