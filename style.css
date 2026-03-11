@@ -39,6 +39,37 @@ header,
   z-index: 2;
 }
 
+/* 写真ステージ */
+.photo-stage {
+  position: relative;
+  height: 110vh;
+  overflow: hidden;
+}
+
+/* 写真（JSで制御） */
+.photo {
+  position: absolute;
+  width: 240px;           /* ベース（scaleで差を出す） */
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+
+  /* JSが動かす */
+  --x: 0px;
+  --y: 0px;
+  --s: 1;
+  transform: translate(var(--x), var(--y)) scale(var(--s));
+  transform-origin: center;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+
+  animation: none !important; /* ←重要：CSSアニメ完全無効 */
+}
+
+.photo.is-active {
+  opacity: 1;
+}
 
 
 /* ヘッダー・タイトル */
@@ -186,6 +217,39 @@ nav a:focus-visible {
 
 .photo:nth-child(19) { top: 42%;  left: -30%; animation: run-diag-rup   22s -12s infinite; }
 .photo:nth-child(20) { top: 8%;   left: 120%; animation: run-diag-ldown 20s -5s  infinite; }
+
+/* ─ 21枚目以降：追加しても自動で動くようにする ─ */
+/* まずベース：画面外からスタートして必ず動く */
+.photo:nth-child(n+21) {
+  top: 50%;
+  left: -35%;
+  animation: run-lr 26s -12s infinite;
+}
+
+/* 4種類に振り分けてランダム感を出す（21枚目以降だけに適用） */
+.photo:nth-child(n+21):nth-child(4n+1) {
+  top: 12%;
+  left: -35%;
+  animation: run-lr 22s -6s infinite;
+}
+
+.photo:nth-child(n+21):nth-child(4n+2) {
+  top: 70%;
+  left: 120%;
+  animation: run-rl 24s -10s infinite;
+}
+
+.photo:nth-child(n+21):nth-child(4n+3) {
+  top: -28%;
+  left: 55%;
+  animation: run-down 27s -14s infinite;
+}
+
+.photo:nth-child(n+21):nth-child(4n) {
+  top: 112%;
+  left: 30%;
+  animation: run-up 29s -18s infinite;
+}
 
 /* ─ 直線的な動き：ずっと走りっぱなし（フェードなし） ─ */
 
