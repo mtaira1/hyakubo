@@ -133,27 +133,33 @@ nav a:focus-visible {
   margin: 0;
   font-size: clamp(28px, 4.8vw, 56px);
   font-weight: 900;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: 0.26em;
   text-transform: uppercase;
 
-  color: #000000;                 /* 塗りを消して縁だけ */
-  -webkit-text-stroke: 0.9px #ffffff;   /* Chrome/Safari */
+  color: #ff2a2a;
+  -webkit-text-stroke: 0.9px #ff6b6b;
 
   text-shadow:
-    0 0 18px rgba(0,0,0,0.75),
+    0 0 10px rgba(255, 40, 40, 0.35),
+    0 0 22px rgba(255, 40, 40, 0.28),
+    0 0 40px rgba(255, 40, 40, 0.18),
     0 10px 30px rgba(0,0,0,0.45);
 }
 
 /* text-strokeがない環境の簡易フォールバック */
 @supports not (-webkit-text-stroke: 2px #fff) {
   .intro h1 {
-    color: #ffffff;
+    color: #ffb3b3;
+    font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     text-shadow:
-      -2px -2px 0 rgba(0,0,0,0.9),
-       2px -2px 0 rgba(0,0,0,0.9),
-      -2px  2px 0 rgba(0,0,0,0.9),
-       2px  2px 0 rgba(0,0,0,0.9),
-       0 0 18px rgba(0,0,0,0.7);
+      -1px -1px 0 rgba(120,0,0,0.85),
+       1px -1px 0 rgba(120,0,0,0.85),
+      -1px  1px 0 rgba(120,0,0,0.85),
+       1px  1px 0 rgba(120,0,0,0.85),
+       0 0 14px rgba(255, 40, 40, 0.28),
+       0 0 28px rgba(255, 40, 40, 0.18),
+       0 10px 30px rgba(0,0,0,0.45);
   }
 }
 
